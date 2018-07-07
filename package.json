@@ -1,0 +1,33 @@
+{
+  "name": "twitter-stramer",
+  "version": "1.0.0",
+  "description": "A simple twitter streaming application for search tweets, filter tweets and find the recent high traffic events.",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ram-1998/twitter-streamer.git"
+  },
+  "keywords": [
+    "twitter",
+    "search",
+    "high",
+    "traffic",
+    "tranding"
+  ],
+  "author": "Shree Ram Bansal",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ram-1998/twitter-streamer/issues"
+  },
+  "homepage": "https://github.com/Ram-1998/twitter-streamer#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "mongoose": "^5.2.1",
+    "mongoose-type-url": "^1.0.4",
+    "twit": "^2.2.11",
+    "twitter": "^1.7.1"
+  }
+}
