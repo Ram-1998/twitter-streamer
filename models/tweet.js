@@ -11,7 +11,7 @@ var tweetSchema = mongoose.Schema({
 	retweets : Number,
 	favorite : Number,
 	language : String,
-	location : String,
+	location : [Number],
 	userMention :[String],
 	HashTags : [String],
 	URL : [String]

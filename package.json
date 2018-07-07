@@ -24,6 +24,8 @@
   },
   "homepage": "https://github.com/Ram-1998/twitter-streamer#readme",
   "dependencies": {
+    "date-and-time": "^0.6.2",
+    "density": "^0.1.0",
     "express": "^4.16.3",
     "mongoose": "^5.2.1",
     "mongoose-type-url": "^1.0.4",
