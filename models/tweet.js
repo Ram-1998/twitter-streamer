@@ -10,6 +10,7 @@ var tweetSchema = mongoose.Schema({
 	createdAt : Date,
 	retweets : Number,
 	favorite : Number,
+	userFollower : Number,
 	language : String,
 	location : [Number],
 	userMention :[String],

@@ -30,7 +30,7 @@ router.get('/streamOn',function(req,res){
 				favorite : tweet.favorite_count,
 				language : tweet.lang,
 				location : tweet.geo.coordinates,
-				userFollower : tweet.user.follower_count,
+				userFollower : tweet.user.followers_count,
 				userMention :tweet.entities.user_mentions.screen_name,
 				HashTags : tweet.entities.hahtags,
 				URLs : tweet.entities.urls
@@ -49,7 +49,7 @@ router.get('/streamOn',function(req,res){
 				favorite : tweet.favorite_count,
 				language : tweet.lang,
 				location : tweet.geo,
-				userFollower : tweet.user.follower_count,
+				userFollower : tweet.user.followers_count,
 				userMention :tweet.entities.user_mentions.screen_name,
 				HashTags : tweet.entities.hahtags,
 				URLs : tweet.entities.urls
@@ -138,6 +138,7 @@ router.post('/filter', function(req, res, next) {
 
 	console.log("Filter Tweet Part");
 	var text = req.body.text;
+	var userName = req.body.userName;
 	var screenName = req.body.screenName;
 	var retweetCount = req.body.retweetCount;
 	var UserfollowerCount = req.body.UserfollowerCount;
@@ -175,8 +176,12 @@ router.post('/filter', function(req, res, next) {
 	// query += '}';
 	//res.json(query);
 	var query = {};
+	if(text)
+		query.$text = {$search : text};
 	if(screenName)
 		query.userHandle = screenName;
+	if(userName)
+		query.userName = userName;
 	if(retweetCount)
 		query.retweets = {$gte : retweetCount};
 	if(favrioteCount)
