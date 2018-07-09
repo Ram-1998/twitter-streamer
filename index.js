@@ -5,6 +5,7 @@ var route = require('./routes/index');
 var mongodb = require("mongodb");
 var mongoose = require("mongoose");
 var Tweet = require('./models/tweet');
+var bodyParser = require('body-parser');
 
 var app = express();
 //Connect to Mongoose Server
@@ -17,6 +18,10 @@ var db = mongoose.connection;
 //Initializing Client;
 var client = new Twitter(config);
 
+//Body Parser
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+
 //Set routes
 app.use('/',route);
 
@@ -24,7 +29,7 @@ app.use('/',route);
 app.use(express.static(__dirname));
 
 //Connecting to port 3000
-app.listen(process.env.PORT || "3000",()=>{
+app.listen(process.env.PORT || "3001",()=>{
 	console.log("Started App at port 3000");
 });
 

@@ -24,3 +24,10 @@ module.exports.createTweet = function(newTweet,callback){
 	//console.log(newTweet);
 	newTweet.save(callback);
 }
+
+//----------------------------Filter API Function-----------------------
+
+module.exports.SearchFilter = function(query,callback){
+	//console.log(newTweet);
+	tweet.find(query,callback);
+}

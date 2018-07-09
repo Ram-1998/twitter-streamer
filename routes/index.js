@@ -5,6 +5,8 @@ var Twitter = require('twit');
 var config = require('../config.js')
 var date = require('date-and-time');
 var density = require('density');
+var bodyParser = require('body-parser');
+var jsonParser = bodyParser.json();
 //init twitter client
 var client = new Twitter(config);
 
@@ -67,20 +69,27 @@ router.get('/streamOff',function(req,res){
 });
 
 //--------------------------Find Trending Topics ------------------------//
-router.get('/Trending',function(req,res){
+router.get('/Trending/:word',function(req,res){
 	var now = new Date();
-	var threeDaysBefore = date.addDays(now, -30);
+	var word = req.params.word;
+	var responseArray = [];
+	var threeDaysBefore = date.addDays(now, -10);
 	var threeDaysBefore1 = date.format(threeDaysBefore, 'YYYY-MM-DD');
-	var query = 'modi since:'+threeDaysBefore1;
+	var query = word+' since:'+threeDaysBefore1;
 	console.log(query);
-	client.get('search/tweets', { q: 'modi', count: 999999999 }, function(err, data, response) {
+	client.get('search/tweets', { q: query , count: 999990 }, function(err, data, response) {
   		var tweets = data.statuses;
+  		console.log(tweets.length);
   		var words = [];
   		var uniqueWord = [];
   		var uniqueWordCount = [];
   		for (var i = 0; i < tweets.length; i++) {
-  			if(tweets[i].entities.hashtags.length > 0)
-  				words.push(tweets[i].entities.hashtags[0].text);
+  			if(tweets[i].entities.hashtags.length > 0){
+  				for (var j = 0; j < tweets[i].entities.hashtags.length; j++) {
+  					words.push(tweets[i].entities.hashtags[j].text);
+  				}
+  				
+  			}
   		}
   		for(i=0;i<words.length;i++){
   			if(uniqueWord.indexOf(words[i]) == -1){
@@ -104,8 +113,112 @@ router.get('/Trending',function(req,res){
   			}
   		}
   		for (var i = 0; i < 10; i++) {
-  			console.log(uniqueWord[i] , uniqueWordCount[i]);
+  			var obj = {word : uniqueWord[i] , count : uniqueWordCount[i]}
+  			responseArray.push(obj);
+  			//console.log(uniqueWord[i] , uniqueWordCount[i]);
   		}
+  		res.json(responseArray);
 	})
+// 	client.get('search/tweets', { q: 'modi since:2018-06-09', count: 100 }, function(err, data, response) {
+//  		var tweets = data.statuses;
+//  		console.log(tweets);
+//  		for (var i = 0; i < tweets.length; i++) {
+//  			console.log(tweets[i].entities);
+//  		}
+// }	)
+ 
+});
+
+
+//-----------------------------Filter Tweet Query----------------//
+router.post('/filter', function(req, res, next) {
+
+	// console.log(req.body.abc);
+	// res.json(req.body.abc);
+
+	console.log("Filter Tweet Part");
+	var text = req.body.text;
+	var screenName = req.body.screenName;
+	var retweetCount = req.body.retweetCount;
+	var UserfollowerCount = req.body.UserfollowerCount;
+	var favrioteCount = req.body.favrioteCount;
+	var userMention = req.body.userMention;
+	var startDate = req.body.startDate;
+	var endDate = req.body.endDate;
+	var language = req.body.language;
+
+	// var query = '{';
+
+	// if(screenName != null)
+	// 	query += ' userHandle : '+screenName+' ,';
+	// if(retweetCount != null)
+	// 	query += ' retweets : { $gte : '+retweetCount+' } ,';
+	// if(favrioteCount != null)
+	// 	query += ' favorite : { $gte : '+favrioteCount+' } ,';
+	// if(UserfollowerCount != null)
+	// 	query += ' userFollower : { $gte : '+favrioteCount+' } ,';
+	// if(userMention != null)
+	// 	query += ' userMention : '+userMention+' ,';
+	// if(startDate != null && endDate != null){
+	// 	query += ' createdAt : { $gte : '+startDate+','+'$lte : '+endDate+' } ,';
+	// }
+	// else if(startDate != null){
+	// 	query += ' createdAt : { $gte : '+startDate+' } ,';
+	// }
+	// else if(endDate != null){
+	// 	query += ' createdAt : { $lte : '+endDate+' } ,';
+	// }
+	// if(language != null)
+	// 	query += ' language : { $in : '+language+' } ,';
+
+	// query = query.slice(0,query.length-1);
+	// query += '}';
+	//res.json(query);
+	var query = {};
+	if(screenName)
+		query.userHandle = screenName;
+	if(retweetCount)
+		query.retweets = {$gte : retweetCount};
+	if(favrioteCount)
+		query.favorite = {$gte : favrioteCount};
+	if(UserfollowerCount)
+		query.userFollower = {$gte : UserfollowerCount};
+	if(userMention)
+		query.userMention = userMention;
+	if(startDate && endDate ){
+		query.createdAt = {$gte : startDate , $lte : endDate};
+	}
+	else if(startDate){
+		query.createdAt = {$gte : startDate};
+	}
+	else if(endDate){
+		query.createdAt = {$lte : endDate};
+	}
+	if(language)
+		query.language = {$in : language};
+
+
+	console.log(query);
+	Tweet.SearchFilter(query,function(err,response){
+		if(err) throw err;
+		res.json(response);
+	});
+
+	// User.getUserByUname(recipient,function(err,receiver){
+	// 	if(receiver.blockedUsers.indexOf(currUser.uname) == -1 ){
+	// 		var message = {sender:currUser.uname,
+	// 					   subject:messageSubject,
+	// 					   body:messageBody};
+	// 		User.sendMessage(receiver,message,function(err,result){
+	// 			if(err) throw err;
+	// 			console.log(receiver);
+	// 			res.json("Message Sent Succesfully !!")
+	// 		});			   
+	// 	}
+	// 	else{
+	// 		res.json("Sorry you can't send message to "+ recipient);
+	// 	}
+	// });
+
 });
 module.exports = router;
