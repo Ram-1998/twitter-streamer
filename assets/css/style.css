@@ -1,0 +1,117 @@
+html, body{
+	height: 100%;
+	background-color: #f7f7f7;
+}
+
+body {
+	font-family: "Open Sans", sans-serif;
+	padding: 0;
+	margin: 0;
+	background-color: #EEEEEE;
+	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
+}
+
+a, a:hover{
+	text-decoration: none;
+	color: #f8f7f2;
+}
+
+.header{
+	height: 100px;
+	text-align: center;
+}
+.filterSearch{
+	padding: 20px;
+
+}
+.filterSearch h2{
+	text-align: center;
+
+}
+.filterSearch .form-group label{
+	text-align: left;
+	color: #1DA1F2;
+}
+.filterSearch .form-group input[type="text"]{
+	position: relative;
+	height: 30px;
+}
+.filterSearch .form-group input[type="checkbox"]{
+	position: relative;
+	width : 10%;
+}
+
+.filters{
+	background-color: #fff;
+	padding: 10px;
+	margin:20px 10px 10px 30px;
+	 box-shadow: 5px 10px 8px 10px #888888;
+}
+.tweets{
+	background-color: #fff;
+	padding: 10px;
+	margin:20px 10px 10px 30px;
+	 box-shadow: 5px 10px 8px 10px #888888;
+}
+.tweets ol{
+	color: #14171a;
+	font-size: 14px;
+	line-height: 20px;
+	list-style-type: none;
+}
+.tweets ol li{
+	background: #fff;
+    background-clip: border-box;
+	border: 1px solid #eee;
+	background-clip: padding-box;
+	text-align: inherit;
+	margin: 2px 10px;
+}
+.varified{
+	font-size: 0.7em;
+	padding-left: 2px;
+	color: #fff;
+	display: inline-block;
+	background-color: #1da1f2;
+	height: 1.2em;
+	width: 1.2em;
+	border-radius: 50%;
+	margin: 0 3px;
+	padding: 1px;
+
+}
+.stream-item-header{
+	display :flex;
+}
+.tweets .screenName{
+	color: #657786
+}
+.tweets .content{
+	margin-left: 50px;
+	line-height: 25px;
+	color: black;
+}
+.tweet-footer i{
+	font-size: 1.2em;
+	padding-left: 2px;
+	color: #657786;
+	display: inline-block;
+	height: 1.2em;
+	width: 1.2em;
+}
+.tweet-footer .count{
+
+	margin: 0 5px;
+}
+.easyPaginateNav a {
+	position: relative;
+	text-align: center;
+	padding:5px;
+	color: #1da1f2;
+	}
+.easyPaginateNav a.current {
+	font-weight:bold;
+	text-decoration:underline
+	color:black;
+}

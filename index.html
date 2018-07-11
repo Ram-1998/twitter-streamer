@@ -1,16 +1,138 @@
-<form action="/filter" method="post">
-	Text : <input type="text" name="text"> <br>
-	userName : <input type="text" name="userName"> <br>
-	screenName : <input type="text" name="screenName"> <br>
-	retweetCount : <input type="number" name="retweetCount"> <br>
-	UserfollowerCount : <input type="number" name="UserfollowerCount"> <br>
-	favrioteCount : <input type="number" name="favrioteCount"> <br>
-	userMention : <input type="number" name="userMention"><br>
-	startDate : <input type="date" name="startDate"><br>
-	endDate <input type="date" name="endDate"><br>
-	languages :  <br>
-	en <input type="checkbox" value ="en" name="language"><br>
-	ja<input type="checkbox" value="ja" name="language"><br>
-	ko <input type="checkbox" value="ko" name="language"><br>
-	<button type="Submit">Submit</button>
-</form>
+<!DOCTYPE html>
+<html class="no-js" lang="" ng-app="myApplication" >
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="description" content="Twitter Data Streamer">
+	<meta name="keywords" content="Twitter , Data , Streamer">
+	<meta name="author" content="Shree Ram Bansal">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- Facebook Open Graph meta -->
+	<meta property="og:title" content="Twitter">
+	<meta property="og:description" content="Twitter Data Streamer">
+	<meta name="theme-color" content="#000">
+
+	<title>Twitter Data Streamer</title>
+
+	<!-- Included CSS Files -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.2.0/animate.min.css">
+
+	<link rel="stylesheet" href="./assets/css/style.css">
+	<link rel="shortcut icon" href="./icon.png" type="image/png"/>
+
+</head>
+<body ng-controller="mycntrl">
+	<section class="row">
+		<div class="header">
+			<h1>Data Streamer</h1>
+			<button class="btn btn-lg btn-primary">See Trending Now</button>
+			<button class="btn btn-lg btn-success">Straeam On</button>
+			<button class="btn btn-lg btn-danger"> Stream Off</button>
+
+		</div>
+	</section>
+	<section class="row filterSearch">
+		<div class="col-md-4 filters">
+			<h2>Filters</h2>
+			<form>
+				<div class="form-group">
+					<label class="col-md-6">Text :</label>	 
+					<input class="col-md-5" type="text" name="text" ng-model="text"> <br>
+				</div>
+
+				<div class="form-group">
+					<label class="col-md-6">User Name :</label> 
+					<input class="col-md-5" type="text" name="userName" ng-model="userName"> <br>
+				</div>
+				<div class="form-group">
+					<label class="col-md-6">Screen Name : </label>
+					<input class="col-md-5" type="text" name="screenName" ng-model="screenName"> <br>
+				</div>
+				<div class="form-group">
+					<label class="col-md-6">Retweet Count : </label>
+					<input class="col-md-5" type="number" name="retweetCount" ng-model="retweetCount"> <br>
+				</div>
+				<div class="form-group">
+					<label class="col-md-6">User Follower Count: </label>
+					<input class="col-md-5" type="number" name="UserfollowerCount" ng-model="UserfollowerCount"> <br>
+				</div>
+				<div class="form-group">
+					<label class="col-md-6">Favriote Count:</label>
+					<input class="col-md-5" type="number" name="favrioteCount" ng-model="favrioteCount"> <br>
+				</div>
+				<div class="form-group">
+					<label class="col-md-6">User Mention: </label>
+					<input class="col-md-5" type="number" name="userMention" ng-model="userMention"><br>
+				</div>
+				<div class="form-group">
+					<label class="col-md-6">Start Date: </label>
+					<input class="col-md-5" type="date" name="startDate" ng-model="startDate"><br>
+				</div>
+				<div class="form-group">
+					<label class="col-md-6">End Date:</label>
+					<input class="col-md-5" type="date" name="endDate" ng-model="endDate"><br>
+				</div>
+				<div class="form-group">
+					<label class="col-md-6">Languages: </label>
+					<div class="col-md-6">	
+						<label>English</label>
+						<input type="checkbox" value ="en" name="language" ng-model="language">
+						<label >Japanese</label>
+						<input type="checkbox" value="ja" name="language" ng-model="language">
+						<label >Korian</label>
+						<input type="checkbox" value="ko" name="language" ng-model="language">
+						<label >Hindi</label>
+						<input type="checkbox" value="ko" name="language" ng-model="language">
+						<label >Urdu</label>
+						<input type="checkbox" value="ko" name="language" ng-model="language">
+					</div>
+					
+				</div>
+				<button type="Submit" class="btn btn-primary btn-lg pull-right" ng-click="searchTweets();">Apply Filter</button>
+			</form>
+		</div>
+		<div class="col-md-7 tweets">
+			<ol id="PaginateTweets">
+				<li ng-repeat="tweet in tweets">
+					<!-- <a href="#" target="_blank"> -->
+						<div class="content">
+							<div class="stream-item-header">
+								<span><b>{{tweet.userName}}</b></span><i class="fa fa-check varified"></i>
+								<span class="screenName">@{{tweet.userHandle}}</span> &nbsp;{{tweet.createdAt}}
+							</div>
+							<div class="tweet-text-container">
+								{{tweet.text}}
+							</div>
+							<div class="tweet-footer">
+								<i class="fa fa-comments-o"></i><span class="count">{{tweet.favriout}}</span>
+								<i class="fa fa-retweet"></i><span class="count">{{tweet.retweets}}</span>
+								<i class="fa fa-heart"></i><span class="count">{{tweet.userFollower}}</span>
+							</div>
+						</div>
+					<!-- </a> -->
+				</li>
+
+				
+				
+				
+			</ol>
+		</div>
+	</section>
+
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script src="https://use.fontawesome.com/abad8396eb.js"></script>
+	<script type="text/javascript" src="./assets/js/paginate.js"></script>
+	<script type="text/javascript" src="./assets/js/angular.min.js"></script>
+	<script type="text/javascript" src="./assets/js/index.js"></script>
+	<script type="text/javascript">
+		$('#PaginateTweets').easyPaginate({
+			paginateElement: 'li',
+			elementsPerPage: 10,
+			effect: 'climb'
+		});
+	</script>
+</body>
+</html>

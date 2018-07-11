@@ -30,5 +30,5 @@ module.exports.createTweet = function(newTweet,callback){
 
 module.exports.SearchFilter = function(query,callback){
 	//console.log(newTweet);
-	tweet.find(query,callback);
+	tweet.find(query,null,{sort : {createdAt : -1 ,userFollower  :-1,text : 1}},callback);
 }

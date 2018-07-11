@@ -9,9 +9,8 @@ var bodyParser = require('body-parser');
 var jsonParser = bodyParser.json();
 //init twitter client
 var client = new Twitter(config);
-
+var stream = client.stream('statuses/sample');
 router.get('/streamOn',function(req,res){
-	var stream = client.stream('statuses/sample');
 	stream.start();
 	stream.on('tweet',tweetEvent);
  
@@ -58,13 +57,12 @@ router.get('/streamOn',function(req,res){
 	
 		Tweet.createTweet(newTweet,function(err,tweet){
 			if(err) throw err;
-			console.log(tweet);
+			//console.log(tweet);
 		});
 	}
 });
 
 router.get('/streamOff',function(req,res){
-	var stream = client.stream('statuses/sample');
 	stream.stop();
 });
 
