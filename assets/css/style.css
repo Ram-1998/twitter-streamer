@@ -130,3 +130,64 @@ a, a:hover{
 	color: red;
 
 }
+.loader{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.8);
+	z-index: 2;
+}
+.loader h2{
+	position: relative;
+	text-align: center;
+	color: #fff;
+}
+.loader img{
+	position: relative;
+	top: 25%;
+	left: 40%;
+}
+.trendingList{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.8);
+	z-index: 2;
+}
+.list{
+	position: relative;
+	height: 90%;
+	width: 40%;
+	top: 5%;
+	left: 30%;
+	background-color: #fff;
+
+}
+.trendingList i{
+	position: absolute;
+	font-size: 50px;
+	left: 90%;
+	top: 5%;
+	cursor: pointer;
+	color: red;
+
+}
+.list h1{
+	text-align: center;
+	margin: 30px;
+}
+.listElement{
+	position: relative;
+	height: 50px;
+	border-bottom: 2px solid #eee;
+}
+.listElement .hashtag{
+	font-size: 1em;
+	color: #000;
+	text-align: center;
+}
+.listElement .count{
+	font-size: 1em;
+	color: #1DA1F2;
+	text-align: center;
+}

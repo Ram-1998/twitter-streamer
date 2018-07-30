@@ -75,9 +75,9 @@ io.on('connection', function(socket){
 		  				}
 		  			});
 
-		    stream.on('error', function(error) {
-		      throw error;
-		    });
+		    // stream.on('error', function(error) {
+		    //   throw error;
+		    // });
 
 		    socket.on('disconnect', function(){
 		      console.log('user disconnected ' + count);

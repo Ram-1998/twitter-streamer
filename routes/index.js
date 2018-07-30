@@ -77,67 +77,118 @@ router.get('/streamOff',function(req,res){
 	stream.stop();
 });
 
-//--------------------------Find Trending Topics ------------------------//
-// router.get('/Trending/:word',function(req,res){
-// 	var now = new Date();
-// 	var word = req.params.word;
-// 	var responseArray = [];
-// 	var threeDaysBefore = date.addDays(now, -10);
-// 	var threeDaysBefore1 = date.format(threeDaysBefore, 'YYYY-MM-DD');
-// 	var query = word+' since:'+threeDaysBefore1;
-// 	console.log(query);
-// 	client.get('search/tweets', { q: query , count: 999990 }, function(err, data, response) {
-//   		var tweets = data.statuses;
-//   		console.log(tweets.length);
-//   		var words = [];
-//   		var uniqueWord = [];
-//   		var uniqueWordCount = [];
-//   		for (var i = 0; i < tweets.length; i++) {
-//   			if(tweets[i].entities.hashtags.length > 0){
-//   				for (var j = 0; j < tweets[i].entities.hashtags.length; j++) {
-//   					words.push(tweets[i].entities.hashtags[j].text);
-//   				}
-  				
-//   			}
-//   		}
-//   		for(i=0;i<words.length;i++){
-//   			if(uniqueWord.indexOf(words[i]) == -1){
-//   				uniqueWord.push(words[i]);
-//   				uniqueWordCount.push(1);
-//   			}
-//   			else{
-//   				uniqueWordCount[uniqueWord.indexOf(words[i])]++;
-//   			}
-//   		}
-//   		for (var i = 0; i < uniqueWordCount.length; i++) {
-//   			for (var j = i; j < uniqueWordCount.length; j++) {
-//   				if(uniqueWordCount[i] < uniqueWordCount[j]){
-//   					var temp = uniqueWordCount[i];
-//   					uniqueWordCount[i] = uniqueWordCount[j];
-//   					uniqueWordCount[j] = temp;
-//   					var temp = uniqueWord[i];
-//   					uniqueWord[i] = uniqueWord[j];
-//   					uniqueWord[j] = temp;
-//   				}
-//   			}
-//   		}
-//   		for (var i = 0; i < 10; i++) {
-//   			var obj = {word : uniqueWord[i] , count : uniqueWordCount[i]}
-//   			responseArray.push(obj);
-//   			//console.log(uniqueWord[i] , uniqueWordCount[i]);
-//   		}
-//   		res.json(responseArray);
-// 	})
-// // 	client.get('search/tweets', { q: 'modi since:2018-06-09', count: 100 }, function(err, data, response) {
-// //  		var tweets = data.statuses;
-// //  		console.log(tweets);
-// //  		for (var i = 0; i < tweets.length; i++) {
-// //  			console.log(tweets[i].entities);
-// //  		}
-// // }	)
- 
-// });
+/////.........................another trending function............./////
+var tweets;
+var words = [];
+var uniqueWord = [];
+var uniqueWordCount = [];
+router.get('/Trending',function(req,res){
+	var Tweet1 = [];
+	var stream = client.stream('statuses/sample');
+	stream.start();
+	stream.on('tweet',tweetEvent);
+	var responseArray = [];
+	function tweetEvent(tweet){
+		//console.log(tweet);
+		//console.log(tweet.entities.hashtags);
+		var hashtags1=[];
+		for (var i = 0; i < tweet.entities.hashtags.length; i++) {
+			hashtags1.push(tweet.entities.hashtags[i].text);
+		}
+		//console.log(hashtags1[0]);
+		if(tweet.geo != null){
+			var newTweet = new Tweet ({
+				id : tweet.id,
+				id_str : tweet.id_str,
+				userId : tweet.user.id,
+				userName : tweet.user.name,
+				userHandle : tweet.user.screen_name,
+				text : tweet.text,
+				createdAt : tweet.created_at,
+				retweets : tweet.retweet_count,
+				favorite : tweet.favorite_count,
+				language : tweet.lang,
+				location : tweet.geo.coordinates,
+				userFollower : tweet.user.followers_count,
+				userMention :tweet.entities.user_mentions.screen_name,
+				HashTags : hashtags1,
+				URLs : tweet.entities.urls
+			});
+		}
+		else{
+			var newTweet = new Tweet ({
+				id : tweet.id,
+				id_str : tweet.id_str,
+				userId : tweet.user.id,
+				userName : tweet.user.name,
+				userHandle : tweet.user.screen_name,
+				text : tweet.text,
+				createdAt : tweet.created_var,
+				retweets : tweet.retweet_count,
+				favorite : tweet.favorite_count,
+				language : tweet.lang,
+				location : tweet.geo,
+				userFollower : tweet.user.followers_count,
+				userMention :tweet.entities.user_mentions.screen_name,
+				HashTags : hashtags1,
+				URLs : tweet.entities.urls
+			});
+		}
+		//console.log(newTweet.HashTags);
+		if(newTweet.HashTags.length > 0){
+		for (var j = 0; j < newTweet.HashTags.length; j++) {
+			//console.log(newTweet.HashTags[j]);
+			Tweet1.push(newTweet.HashTags[j]);
+		}
+	}
+	//	Tweet1.push(newTweet.HashTags);
+	//console.log(Tweet1.length);
+	// for (var i = 0; i < Tweet1.length; i++) {
+	// 	console.log(Tweet1[i]);
+	// }
+	tweets=Tweet1;
+	words=tweets;
+	for(i=0;i<words.length;i++){
+		if(uniqueWord.indexOf(words[i]) == -1){
+			uniqueWord.push(words[i]);
+			uniqueWordCount.push(1);
+		}
+		else{
+			uniqueWordCount[uniqueWord.indexOf(words[i])]++;
+		}
+	}
 
+
+
+}
+setTimeout(function(){
+	stream.stop();
+	for (var i = 0; i < uniqueWordCount.length; i++) {
+		for (var j = i; j < uniqueWordCount.length; j++) {
+			if(uniqueWordCount[i] < uniqueWordCount[j]){
+				var temp = uniqueWordCount[i];
+				uniqueWordCount[i] = uniqueWordCount[j];
+				uniqueWordCount[j] = temp;
+				var temp = uniqueWord[i];
+				uniqueWord[i] = uniqueWord[j];
+				uniqueWord[j] = temp;
+			}
+		}
+	}
+
+	for (var i = 0; i < 10; i++) {
+		var obj = {word : uniqueWord[i] , count : uniqueWordCount[i]}
+		responseArray.push(obj);
+		//console.log(uniqueWord[i] , uniqueWordCount[i]);
+	}
+	//console.log(responseArray);
+	res.setHeader('Content-Type', 'application/json');
+	res.json(responseArray);
+	res.end();
+  }, 30000);
+	//console.log('r');
+	stream.stop();
+});
 
 //-----------------------------Filter Tweet Query----------------//
 router.post('/filter', function(req, res, next) {

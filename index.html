@@ -30,10 +30,30 @@
 	<div id="liveStream" class="liveStream">
 		<i class="fa fa-times" onClick="LiveStream();"></i>
 	</div>
+	<div class="loader" ng-show="loading">
+		<h2>Wait 2 minutes for result</h2>
+		<img src="loader.gif">
+	</div>
+
+	<div class="trendingList" ng-show="Trending">
+		<i class="fa fa-times" ng-click="closeTrending();"></i>
+		<div class="list">
+			<h1>Trending <span style="color: #1DA1F2">HashTags</span></h1>
+			<div class="col-md-12 listElement">
+				<div class="col-md-6 hashtag" style="font-size: 30px;">HashTag</div>
+				<div class="col-md-6 count" style="font-size: 30px;">Count</div>
+			</div>
+			<div class="col-md-12 listElement" ng-repeat="hashtag in hashtags">
+				<div class="col-md-6 hashtag">{{hashtag.word}}</div>
+				<div class="col-md-6 count">{{hashtag.count}}</div>
+			</div>			
+			
+		</div>
+	</div>
 	<section class="row">
 		<div class="header">
 			<h1>Data Streamer</h1>
-			<button class="btn btn-lg btn-primary">See Trending Now</button>
+			<button class="btn btn-lg btn-primary" ng-click="seeTrending()">See Trending Now</button>
 			<button class="btn btn-lg btn-success" onClick="LiveStream();">See Live Straeaming</button>
 		</div>
 	</section>

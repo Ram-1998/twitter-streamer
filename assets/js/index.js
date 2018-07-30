@@ -5,7 +5,8 @@ tweeterctrl.$inject = ['$scope','$http']
 
 function tweeterctrl($scope,$http){
 
-
+  $scope.loading = false;
+  $scope.Trending = false;
   //$scope.text = "hello friends !!! chai Pi lo !!";
   $scope.searchTweets = function(){
   
@@ -44,6 +45,26 @@ function tweeterctrl($scope,$http){
        
 
   };
+  $scope.seeTrending = function(){
+  
+           // use $.param jQuery function to serialize data from JSON
+           //$scope.tweets = []; 
+            
+            //console.log(data);
+            $scope.hashtags = [];
+            $scope.loading = true;
+            $http.get("/Trending")
+            .then(function(response) {
+                $scope.loading = false;
+                $scope.Trending = true;
+                console.log(response.data)
+                $scope.hashtags = response.data;
+            });  
 
+  };
+
+  $scope.closeTrending = function(){      
+    $scope.Trending = false;
+  };
 }
 })();
