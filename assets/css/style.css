@@ -112,6 +112,21 @@ a, a:hover{
 	}
 .easyPaginateNav a.current {
 	font-weight:bold;
-	text-decoration:underline
+	text-decoration:underline;
 	color:black;
+}
+.liveStream{
+	position: absolute;
+	background-color: #fff;
+	z-index: 2;
+	display: none;
+}
+.liveStream i{
+	position: absolute;
+	font-size: 50px;
+	left: 90%;
+	top: 5%;
+	cursor: pointer;
+	color: red;
+
 }

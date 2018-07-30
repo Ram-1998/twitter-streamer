@@ -23,7 +23,7 @@ function tweeterctrl($scope,$http){
                 endDate : $scope.endDate,
                 language : $scope.language,
             };
-
+            console.log(data);
             var post = $http({
               method:"POST",
               url: "/filter",
@@ -33,7 +33,7 @@ function tweeterctrl($scope,$http){
                         'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
                         'Access-Control-Allow-Headers':'X-Requested-With' }
            }).then(function(resp){
-              console.log(resp.data);
+             // console.log(resp.data);
              $scope.tweets = resp.data;
            });
            // $('#PaginateTweets').easyPaginate({

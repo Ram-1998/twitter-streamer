@@ -22,15 +22,19 @@
 	<link rel="stylesheet" href="./assets/css/style.css">
 	<link rel="shortcut icon" href="./icon.png" type="image/png"/>
 
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
 </head>
 <body ng-controller="mycntrl">
+
+	<div id="liveStream" class="liveStream">
+		<i class="fa fa-times" onClick="LiveStream();"></i>
+	</div>
 	<section class="row">
 		<div class="header">
 			<h1>Data Streamer</h1>
 			<button class="btn btn-lg btn-primary">See Trending Now</button>
-			<button class="btn btn-lg btn-success">Straeam On</button>
-			<button class="btn btn-lg btn-danger"> Stream Off</button>
-
+			<button class="btn btn-lg btn-success" onClick="LiveStream();">See Live Straeaming</button>
 		</div>
 	</section>
 	<section class="row filterSearch">
@@ -112,11 +116,7 @@
 							</div>
 						</div>
 					<!-- </a> -->
-				</li>
-
-				
-				
-				
+				</li>				
 			</ol>
 		</div>
 	</section>
@@ -127,6 +127,7 @@
 	<script type="text/javascript" src="./assets/js/paginate.js"></script>
 	<script type="text/javascript" src="./assets/js/angular.min.js"></script>
 	<script type="text/javascript" src="./assets/js/index.js"></script>
+
 	<script type="text/javascript">
 		$('#PaginateTweets').easyPaginate({
 			paginateElement: 'li',
@@ -134,5 +135,71 @@
 			effect: 'climb'
 		});
 	</script>
+
+	<script type="text/javascript">
+		var width = 1400,
+		    height = 700,
+		    padding = 50;
+
+	  var scale = d3.scale.linear()
+	    .domain([0,200])
+	    .range([5,55]);
+
+  var canvas = d3.select("#liveStream").append("svg")
+    .attr("width",width)
+    .attr("height",height);
+
+  d3.json("custom.geo.json",function(data){
+
+    var group = canvas.selectAll("g")
+      .data(data.features)
+      .enter()
+        .append("g")
+
+    var a = [75.77,26.91];
+    var b = [-122.389809, 37.72728];
+
+    var projection = d3.geo.mercator().scale(170).translate([750,520]);
+    var path = d3.geo.path().projection(projection);
+
+    var areas = group.append("path")
+      .attr("d", path)
+      .attr("class", "area")
+      .attr("fill","#999");
+
+      var event = function(a,r){
+      canvas.append("circle")
+          .attr("cx", projection(a)[0])
+          .attr("cy", projection(a)[1])
+          .attr("opacity","0.8")
+          .attr("r",0)
+          .attr("fill","steelblue")
+          .transition()
+            .duration( scale(r) * 100)
+            .delay(0)
+            .attr("r",scale(r))
+          .transition()
+            .duration(0)
+            .attr("r",0)
+
+    };
+
+    var socket = io.connect('http://localhost:3000');
+    console.log(socket);
+    //var socket = io();
+
+    socket.on('twitter', function(data){
+      event(data.coordinates.coordinates,data.radius);
+    });
+  });
+
+	</script>
+
+	<script type="text/javascript">
+		function LiveStream(){
+			$('#liveStream').toggle();
+		};
+	</script>
+
 </body>
 </html>

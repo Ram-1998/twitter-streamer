@@ -25,12 +25,20 @@
   "homepage": "https://github.com/Ram-1998/twitter-streamer#readme",
   "dependencies": {
     "body-parser": "^1.18.3",
+    "chalk": "^2.4.1",
     "date-and-time": "^0.6.2",
     "density": "^0.1.0",
+    "dotenv": "^6.0.0",
     "express": "^4.16.3",
+    "http": "0.0.0",
     "mongoose": "^5.2.1",
     "mongoose-type-url": "^1.0.4",
+    "ol": "^5.0.3",
+    "socket.io": "^2.1.1",
     "twit": "^2.2.11",
     "twitter": "^1.7.1"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.9.6"
   }
 }
