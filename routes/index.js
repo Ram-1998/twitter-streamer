@@ -18,7 +18,7 @@ var client = new Twitter(config);
 var stream = client.stream('statuses/sample');
 
 router.get('/',function(req,res){
-	res.sendFile(__dirname + '/index.html');
+	res.sendFile('../index.html');
 });
 router.get('/streamOn',function(req,res){
 	stream.start();
