@@ -28,7 +28,7 @@ http.listen( process.env.PORT || 3000, function(){
 });
 
 //Connect to Mongoose Server
-mongoose.connect(process.env.MONGODB_URI || "mongodb://ram:ram1234@ds219432.mlab.com:19432/twitter-streamer" ,()=>{
+mongoose.connect(process.env.MONGODB_URI || "mongodb://ram:ram1234@ds051923.mlab.com:51923/heroku_54dt51lj" ,()=>{
 		console.log("Database Connected");
 	}
 );
