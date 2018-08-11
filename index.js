@@ -87,9 +87,9 @@ io.on('connection', function(socket){
 		      console.log('user disconnected ' + count);
 		      count--;
 
-		      // if(count == 0){
-		      //   stream.destroy();
-		      // }
+		      if(count == 0){
+		        stream.destroy();
+		      }
 		    });
 		 });
 	}); 
