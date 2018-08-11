@@ -24,7 +24,7 @@ app.use(express.static(__dirname));
 app.use('/',route);
 
 http.listen( process.env.PORT || 3000, function(){
-  console.log('listening on ' + process.env.PORT || 3000);
+  console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
 });
 
 //Connect to Mongoose Server
