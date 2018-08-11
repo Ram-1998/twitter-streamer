@@ -4,7 +4,7 @@
   "description": "A simple twitter streaming application for search tweets, filter tweets and find the recent high traffic events.",
   "main": "index.js",
   "scripts": {
-    "test": "npm start"
+    "test": "npm index.js"
   },
   "repository": {
     "type": "git",
