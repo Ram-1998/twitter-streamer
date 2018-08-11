@@ -28,10 +28,14 @@ http.listen( process.env.PORT || 3000, function(){
 });
 
 //Connect to Mongoose Server
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/twitter-streamer",()=>{
+mongoose.connect(process.env.MONGODB_URI || "mongodb://ram:ram1234@ds219432.mlab.com:19432/twitter-streamer" ,()=>{
 		console.log("Database Connected");
 	}
 );
+// mongoose.connect(process.env.MONGODB_URI ||  "mongodb://localhost:27017/twitter-streamer",()=>{
+// 		console.log("Database Connected");
+// 	}
+// );
 var db = mongoose.connection;
 
 //Initializing Client;
@@ -75,9 +79,9 @@ io.on('connection', function(socket){
 		  				}
 		  			});
 
-		    // stream.on('error', function(error) {
-		    //   throw error;
-		    // });
+		    stream.on('error', function(error) {
+		      throw error;
+		    });
 
 		    socket.on('disconnect', function(){
 		      console.log('user disconnected ' + count);
