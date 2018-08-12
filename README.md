@@ -8,41 +8,21 @@ A Simple Twitter Based Application where you can search abou tweets based on Dat
 (2) - MongoDB
 (3) - Express
 (3) - Basic Knowledge of Rest API
+(4) - Socket.io
 
 ```
 
-### Documentation
-
-[Read API documentation Here](https://documenter.getpostman.com/view/3998711/simple-messaging-app/RVtvqYmv)
 
 ### Live Link
 
-[Click here to use API](https://fathomless-shore-82374.herokuapp.com)
+[Click here to use API](https://twitterstreamer.herokuapp.com/)
 
 ## API Paths
 
 ### (1) POST /filter
-```
-
-```
 ### (2) GET /streamOn
-
-```
-
-```
-
 ### (3) GET /streamOff
-
-```
-
-```
-
 ### (4) GET /Trending
-
-```
-
-```
-
 
 ## *DataBase Design of Tweets*
 ```
